@@ -1,0 +1,27 @@
+dbt_ecommerce:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: dev.duckdb
+      threads: 4
+      extensions:
+        - httpfs
+      settings:
+        s3_endpoint: "{{ env_var('MINIO_API_HOST', 'http://localhost:9000') | replace('http://', '') }}"
+        s3_access_key_id: "{{ env_var('ACCESS_KEY') | trim }}"
+        s3_secret_access_key: "{{ env_var('SECRET_KEY') | trim }}"
+        s3_use_ssl: false
+        s3_url_style: 'path'
+    docker:
+      type: duckdb
+      path: dev.duckdb
+      threads: 4
+      extensions:
+        - httpfs
+      settings:
+        s3_endpoint: "{{ env_var('MINIO_ENDPOINT', 'http://minio:9000') | replace('http://', '') }}"
+        s3_access_key_id: "{{ env_var('ACCESS_KEY') | trim }}"
+        s3_secret_access_key: "{{ env_var('SECRET_KEY') | trim }}"
+        s3_use_ssl: false
+        s3_url_style: 'path'

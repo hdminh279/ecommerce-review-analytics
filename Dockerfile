@@ -16,7 +16,12 @@ RUN pip install --no-cache-dir \
     transformers \
     torch \
     groq \
-    spacy
+    scikit-learn \
+    pandas \
+    spacy \
+    datasets \
+    accelerate \
+    dbt-duckdb
 
 RUN python3 -c "from transformers import pipeline; pipeline('text-classification', model='bhadresh-savani/bert-base-uncased-emotion')" \
     && chmod -R 777 /tmp/hf_cache /tmp

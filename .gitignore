@@ -1,16 +1,48 @@
-# Python-generated files
 __pycache__/
-*.py[oc]
+*.py[cod]
+*$py.class
+*.so
 build/
 dist/
 wheels/
-*.egg-info
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
 .env
+.env.*
+*.env
+!.env.example
 
-aspect_extraction/
-pseudo_label/
 docs/
 paper/
+PROJECT_CHARTER.md
+SESSION_LOG.md
+logs/
+*.log
+
 data/
+aspect_extraction/
+pseudo_label/
+*.duckdb
+*.duckdb.wal
+dev.duckdb
+*.parquet
+*.csv
+*.tar.gz
+
+dbt_ecommerce/target/
+dbt_ecommerce/dbt_packages/
+dbt_ecommerce/logs/
+dbt_ecommerce/dev.duckdb
+dbt_ecommerce/.user.yml
+
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store

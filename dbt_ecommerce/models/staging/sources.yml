@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: amazon_datalake
+    description: "MinIO S3 Data Lake storing Gold Fact reviews, Silver metadata, and Silver reviews"
+    tables:
+      - name: fact_review_sentiment
+        description: "Gold Fact review sentiment dataset partitioned by category"
+        meta:
+          external_location: "s3://amazon-reviews-datalake/gold/fact_review_sentiment/*/*.parquet"
+      - name: silver_metadata
+        description: "Silver product metadata partitioned by category"
+        meta:
+          external_location: "s3://amazon-reviews-datalake/silver/metadata/*/*.parquet"

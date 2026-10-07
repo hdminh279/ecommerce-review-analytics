@@ -58,6 +58,5 @@ if __name__ == "__main__":
 
 """
 Run scirpts
-docker exec -it spark-master spark-submit --py-files /spark/preprocessing/review_pre.py,/spark/preproc
-essing/metadata_pre.py /spark/preprocessing/preprocessing.py
+docker exec -it spark-master spark-submit --py-files /spark/preprocessing/review_pre.py,/spark/preprocessing/metadata_pre.py /spark/preprocessing/preprocessing.py
 """

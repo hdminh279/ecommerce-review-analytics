@@ -10,6 +10,7 @@ reviews_cols = [
     "rating",
     "title",
     "text",
+    "timestamp",
 ]
 
 def preprocessing_review(spark: SparkSession, category: str) -> "pyspark.sql.DataFrame":
@@ -20,14 +21,13 @@ def preprocessing_review(spark: SparkSession, category: str) -> "pyspark.sql.Dat
         1. Read Jsonl.gzip from Bronze layer
         2. Select necessary columns + drop null, drop Duplicate
         3. Format type of data
-        4. Create Label (0: negative, 1: positive)
+        4. Create Label (0: negative, 1: neutral, 2: positive)
         5. Concat: tilte + review -> review_text, lowercase, clean
         6. Cast timestamp -> review_date.
 
     Return: 
         DataFrame with schema:
-            parent_asin, rating, title, text, review_text,
-            timestamp, helpful_vote, verified_purchase,
+            parent_asin, rating, title,  review_text,
             review_date, label
     """
 
@@ -58,6 +58,15 @@ def preprocessing_review(spark: SparkSession, category: str) -> "pyspark.sql.Dat
 
     # Lowercase review_text
     df = df.withColumn("review_text", F.lower(F.col("review_text")))
+
+    # Label data
+    df = df.withColumn(
+        "label",
+        F.when(F.col("rating").between(1.0, 2.0), 0.0) # Negative
+        .when(F.col("rating") == 3.0, 1.0)              # Neutral
+        .when(F.col("rating").between(4.0, 5.0), 2.0)   # Positive
+        .otherwise(1.0) # Default Neutral if rating is missing
+    ).filter(F.col("review_text").isNotNull())
 
     # Delete HTML, URLs, numbers, special charater
     df = (
@@ -97,6 +106,7 @@ def preprocessing_review(spark: SparkSession, category: str) -> "pyspark.sql.Dat
     "rating",
     "review_text",
     "review_date",
+    "label",
     """
 
     return df_final
