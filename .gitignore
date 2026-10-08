@@ -46,3 +46,5 @@ dbt_ecommerce/.user.yml
 .vscode/
 .idea/
 .DS_Store
+
+report_generator/
